@@ -36,21 +36,27 @@ What the video shows:
 | 2:50 | What we would build next |
 
 ## Screenshots
-| Login | Admin dashboard |
-| --- | --- |
-| ![Login page with the ten demo accounts](docs/screenshots/01-login.png) | ![Admin dashboard with three project cards](docs/screenshots/02-admin-dashboard.png) |
+**Login** with the ten demo accounts and their reference codes
+![Login page](docs/screenshots/01-login.png)
 
-| Project detail | Kanban board |
-| --- | --- |
-| ![Project detail with task list](docs/screenshots/03-project-detail.png) | ![Kanban board with three columns](docs/screenshots/04-kanban-board.png) |
+**Admin dashboard** after Create from Transcript: 3 projects, 12 tasks
+![Admin dashboard](docs/screenshots/02-admin-dashboard.png)
 
-| Team capacity | Agent view |
-| --- | --- |
-| ![Team directory with capacity bars](docs/screenshots/05-team-capacity.png) | ![Agent My Tasks with capacity meter](docs/screenshots/06-agent-my-tasks.png) |
+**Project detail**: client, manager, deadline 20 Oct 2026, 40 hours
+![Project detail](docs/screenshots/03-project-detail.png)
 
-| On a phone |
-| --- |
-| <img src="docs/screenshots/07-mobile.png" alt="The app on a phone" width="300"> |
+**Task list** with owners, deadlines, time left and estimated hours
+![Task list](docs/screenshots/04-task-list.png)
+
+**Kanban board**: To Do, In Progress, Done
+![Kanban board](docs/screenshots/05-kanban-board.png)
+
+**Team directory** with reference codes, role control and 40 hour capacity bars
+![Team directory](docs/screenshots/06-team-capacity.png)
+
+| Demo user switcher | On a phone | Installed app |
+| --- | --- | --- |
+| <img src="docs/screenshots/07-user-switcher.png" alt="Demo user switcher" width="260"> | <img src="docs/screenshots/08-mobile-login.png" alt="Login on a phone" width="260"> | <img src="docs/screenshots/09-installed-icon.png" alt="Installed app icon on a phone home screen" width="160"> |
 
 ## Judges Guide
 A five-minute path through everything the challenge asks for. Use the **Demo: switch user** pill in the top bar to change accounts; it performs a real login each time.
