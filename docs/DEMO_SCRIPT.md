@@ -1,5 +1,20 @@
 # Demo Script (about 3 minutes)
 
+## Recording the demo video (2-3 minutes)
+Before recording: open https://infinity-hackathon-9mbr.onrender.com/api/health so the backend is awake, log in as Admin, and click **Reset demo data**.
+
+Record with Win + Alt + R (Xbox Game Bar) or OBS. Upload to YouTube as **Unlisted** (or Google Drive with "Anyone with the link"), then replace `DEMO_VIDEO_URL` in `README.md` with the link (it appears in several places; use Find and Replace).
+
+| Time | Show | Say |
+| --- | --- | --- |
+| 0:00-0:20 | Login page | "After a planning meeting, someone types every project and task by hand. NovaWorks CRM does it from the transcript. These are the ten demo accounts." |
+| 0:20-0:50 | Admin: Use supplied transcript, Create from Transcript | "The admin pastes the meeting. AI reads it with the team directory and creates three projects and twelve tasks." |
+| 0:50-1:20 | Open UrbanCart | "Manager Ayesha, deadline 20 October, not the earlier 18. The integration task moved to 19 October. No payment or inventory tasks, because they were rejected. Kamran is not added, he is not an employee." |
+| 1:20-1:55 | Switcher: Ayesha, Ali, Hamza; change the project number in the address bar | "Each person sees only their own work. The switcher logs in for real. Opening someone else's project is refused by the backend, not just hidden." |
+| 1:55-2:25 | Board view, Team Directory capacity bars | "Tasks move across a Kanban board. Every developer has a 40 hour capacity, and the admin is warned before anyone is overloaded." |
+| 2:25-2:50 | Refresh; on a phone, Install app | "Everything is saved in a hosted database. It also installs on a phone like an app." |
+| 2:50-3:00 | Dashboard | "Next we would add progress tracking, email reminders and a calendar view." |
+
 ## The six questions
 1. **What problem are you solving?** After a planning meeting, someone types every project and task into the CRM by hand, and changed decisions get entered wrongly.
 2. **How does your solution work?** The admin pastes the meeting transcript. AI reads it with the team directory and creates the projects and tasks. Each person then sees only their own work.

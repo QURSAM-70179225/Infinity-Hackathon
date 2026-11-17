@@ -12,4 +12,10 @@ The main README shows these images. Save each screenshot here with exactly this 
 | `06-agent-my-tasks.png` | Logged in as Ali: My Tasks with the capacity meter |
 | `07-mobile.png` | The app on a phone, or the installed app icon |
 
-On Windows: press Win + Shift + S, select the area, then paste into Paint and save as PNG.
+How to take them:
+1. Open https://infinity-hack-plum.vercel.app, log in as Admin, and create from the supplied transcript, so the screens have data.
+2. Press Win + Shift + S, select the browser area, then open Paint, paste (Ctrl + V) and save as PNG with the exact file name above into this folder.
+3. For `07-mobile.png`: press F12, click the phone icon (device toolbar), choose a phone size, and capture that.
+4. Push: `git add docs/screenshots` then `git commit -m "Add screenshots"` then `git push`.
+
+The README also uses `02-admin-dashboard.png` as the demo video thumbnail.

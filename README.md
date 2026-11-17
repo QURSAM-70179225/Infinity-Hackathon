@@ -2,9 +2,13 @@
 
 A project management CRM for NovaWorks Technologies. The administrator pastes a meeting transcript, and AI creates the projects and tasks with the right manager, owner, deadline and estimated hours. Each logged-in user sees only the work they are allowed to see.
 
-**Live application: https://infinity-hack-plum.vercel.app**
+| | |
+| --- | --- |
+| **Live application** | https://infinity-hack-plum.vercel.app |
+| **Demo video (3 min)** | [Watch the demo](DEMO_VIDEO_URL) |
+| **Repository** | https://github.com/QURSAM-70179225/Infinity-Hackathon |
 
-Log in with any demo account below (password `Demo123!`), for example `admin@novaworks.example`.
+Log in with any demo account below (password `Demo123!`), for example `admin@novaworks.example`. The backend runs on a free Render service; if the first login takes up to a minute, it was waking up.
 
 ## Team
 - Team name: [team name]
@@ -14,6 +18,22 @@ Log in with any demo account below (password `Demo123!`), for example `admin@nov
   - Ali Mumtaz: backend (database, seeding, login, role-based access)
   - Muzammil Hussain: AI (prompt, transcript conversion, validation, all-or-nothing save)
 - Repository: https://github.com/QURSAM-70179225/Infinity-Hackathon
+
+## Demo Video
+[![Watch the 3 minute demo](docs/screenshots/02-admin-dashboard.png)](DEMO_VIDEO_URL)
+
+**[Watch the 3 minute demo](DEMO_VIDEO_URL)**
+
+What the video shows:
+| Time | Part |
+| --- | --- |
+| 0:00 | The problem and the login page with the ten demo accounts |
+| 0:20 | Admin pastes the supplied transcript; AI creates 3 projects and 12 tasks |
+| 0:50 | UrbanCart detail: manager, 20 October deadline, corrected decisions, nothing rejected |
+| 1:20 | Role-based access: Ayesha, Ali and Hamza each see only their work; blocked direct access |
+| 1:55 | Kanban board, developer capacity bars, overload review |
+| 2:25 | Refresh to show saved data; changed transcript; install on a phone |
+| 2:50 | What we would build next |
 
 ## Screenshots
 | Login | Admin dashboard |
@@ -28,12 +48,16 @@ Log in with any demo account below (password `Demo123!`), for example `admin@nov
 | --- | --- |
 | ![Team directory with capacity bars](docs/screenshots/05-team-capacity.png) | ![Agent My Tasks with capacity meter](docs/screenshots/06-agent-my-tasks.png) |
 
+| On a phone |
+| --- |
+| <img src="docs/screenshots/07-mobile.png" alt="The app on a phone" width="300"> |
+
 ## Judges Guide
 A five-minute path through everything the challenge asks for. Use the **Demo: switch user** pill in the top bar to change accounts; it performs a real login each time.
 
 | # | Do this | You should see |
 | --- | --- | --- |
-| 1 | Open the live link and log in as **Admin** (click the ADMIN chip, then Log in) | Admin home with Create from Transcript |
+| 1 | Open https://infinity-hack-plum.vercel.app and log in as **Admin** (click the ADMIN chip, then Log in) | Admin home with Create from Transcript |
 | 2 | Click **Use supplied transcript**, then **Create from Transcript** | "Created 3 projects and 12 tasks" and three project cards |
 | 3 | Open **UrbanCart Website** | Manager Ayesha Khan, deadline 20 Oct 2026, four tasks, 40 hours |
 | 4 | Check the corrected decisions | UrbanCart deadline is 20 Oct (not 18). Website integration is due 19 Oct (not 17). QuickServe integration is 10h (not 8). HelpDeskPro testing belongs to Maryam (not Zain) |
@@ -159,7 +183,7 @@ One manager has many projects, one project has many tasks, and one agent has man
 
 ## Links
 - Live application: https://infinity-hack-plum.vercel.app
-- Demo video: [recording URL]
+- Demo video: [Watch the demo](DEMO_VIDEO_URL)
 
 ## Requirements
 - Node.js 18 or newer, with npm
@@ -293,7 +317,7 @@ npm test
 - Frontend host: Vercel, https://infinity-hack-plum.vercel.app
 - Backend host: Render, https://infinity-hackathon-9mbr.onrender.com
 - Database: Supabase hosted PostgreSQL
-- Deployed branch/commit: `main`, [commit SHA]
+- Deployed branch: `main` (Vercel and Render redeploy automatically on every push)
 
 Full step-by-step instructions are in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
@@ -347,7 +371,7 @@ Copyright (c) 2026 Abdul Hameed, Ali Mumtaz, Muzammil Hussain, Qursam Bibi.
 ## Submission Summary
 - Source repository: https://github.com/QURSAM-70179225/Infinity-Hackathon
 - Live link: https://infinity-hack-plum.vercel.app
-- Demo video: [recording URL]
+- Demo video: [Watch the demo](DEMO_VIDEO_URL)
 - Setup and seed commands: documented above
 - Demo login accounts: listed above
 - Features completed: login, role-based access enforced in the API, transcript to projects and tasks with validation, project and task screens, team directory, persistent hosted database, reset; plus Kanban board, workload and overload review, manual management, signup, reminders, installable app
