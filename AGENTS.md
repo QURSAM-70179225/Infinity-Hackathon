@@ -11,7 +11,9 @@ Team: Qursam Bibi (leader), Abdul Hameed, Ali Mumtaz, Muzammil Hussain.
 - Backend: Node.js + Express in `backend/`, entry `backend/src/index.js`
 - AI: Groq API (`GROQ_API_KEY`), backup OpenRouter (`OPENROUTER_API_KEY`)
 - Database: Supabase via `@supabase/supabase-js`, client in `backend/src/utils/supabase.js`, schema in `backend/sql/schema.sql`
-- Deploy: Vercel (frontend), Render (backend)
+- Deploy: Vercel (frontend), Render (backend). Steps in `docs/DEPLOYMENT.md`
+- Database switch: `DB_MODE` in `backend/.env` (`supabase` or `local`), handled only in `backend/src/services/db.js`
+- Installable app: `frontend/public/manifest.webmanifest`, `frontend/public/sw.js`, `frontend/src/components/InstallButton.jsx`
 
 ## 1. Git and GitHub
 - Commit messages describe the change only. No AI attribution: no "Co-Authored-By",
@@ -36,6 +38,8 @@ Team: Qursam Bibi (leader), Abdul Hameed, Ali Mumtaz, Muzammil Hussain.
 - Loading state for every request, clear error message for every failure, empty state for no data.
 - If the AI call fails, fall back to the backup model before showing an error.
 - All keys stay in the backend. The frontend only calls our own API.
+- The current user always comes from the login token. Never accept a user id or role sent by the browser.
+- Developer capacity is 40 hours. The rule lives in `backend/src/services/workload.js` and `frontend/src/utils/capacity.js`; keep them the same.
 
 ## 4. UI must stand out
 The first screen decides the first impression. Design it to sell the product.
@@ -44,7 +48,7 @@ The first screen decides the first impression. Design it to sell the product.
 - Strong visual hierarchy: big readable headings, generous spacing, no clutter.
 - Show AI results as designed cards, tables or charts, never as a raw text dump.
 - Smooth states: skeleton or spinner while loading, subtle transitions, hover and focus styles.
-- Responsive: looks right on a laptop and on a phone.
+- Responsive: looks right on a laptop and on a phone. No fixed widths that overflow a small screen; wide tables scroll inside their own box.
 - Good contrast and readable text sizes.
 - Avoid the generic template look: no default Vite page, no unstyled HTML, no lorem ipsum.
 - Use real, relevant sample content so the demo looks like a real product.

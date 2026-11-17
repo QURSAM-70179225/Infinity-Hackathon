@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../utils/auth.jsx'
 import { DEMO_ACCOUNTS, DEMO_PASSWORD } from '../utils/demoAccounts.js'
 import Icon from '../components/Icon.jsx'
+import InstallButton from '../components/InstallButton.jsx'
 import { Spinner } from '../components/States.jsx'
 
 
@@ -90,7 +91,10 @@ export default function Login() {
             <p className="text-sm text-slate-500">From meeting to execution in one click.</p>
           </div>
 
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900">Welcome back</h2>
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="text-2xl font-bold tracking-tight text-slate-900">Welcome back</h2>
+            <InstallButton />
+          </div>
           <p className="mt-1 text-sm text-slate-500">Log in with a demo account to open your workspace.</p>
 
           <form onSubmit={handleSubmit} className="mt-7 space-y-4">

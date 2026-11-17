@@ -59,3 +59,16 @@ Rehearse the AI part of the demo and the answers below.
 - *What if the AI call fails halfway?* Nothing is saved, because saving only happens after a complete, valid draft, in one transaction.
 - *Why temperature 0?* The task is extraction, so we want the same answer every time, not creativity.
 - *Are passwords sent to the AI?* No. Only the directory fields listed above.
+
+## Added later (also yours)
+| File | What it does |
+|---|---|
+| `backend/src/services/workload.js` (`projectDraftWorkload`) | Existing hours plus the draft's hours per developer |
+| `backend/src/controllers/transcriptController.js` | Now three steps: validate, check workload, save |
+| `frontend/src/components/OverloadReview.jsx` | The review screen with reassign dropdowns and live capacity bars |
+
+- **Overload check:** after validation, if any developer would be above 40 hours, the API answers 409 with the draft and saves nothing.
+- **Review:** the admin reassigns tasks; totals recalculate in the browser. Saving sends the draft back, and the server validates and checks it again.
+- **Save anyway:** the admin may accept the overload on purpose; that is the only way past the check.
+- **No double counting:** projects that the draft will replace are left out of the existing hours.
+- The supplied transcript stays within capacity (highest is Hamza at 30h), so it saves directly.

@@ -9,7 +9,7 @@ A project management CRM for NovaWorks Technologies. The administrator pastes a 
   - Abdul Hameed: frontend (login, dashboard, project and task screens)
   - Ali Mumtaz: backend (database, seeding, login, role-based access)
   - Muzammil Hussain: AI (prompt, transcript conversion, validation, all-or-nothing save)
-- Repository: [GitHub URL]
+- Repository: https://github.com/QURSAM-70179225/Infinity-Hackathon
 
 ## What Works
 - Login and logout with the ten supplied demo accounts.
@@ -26,6 +26,7 @@ A project management CRM for NovaWorks Technologies. The administrator pastes a 
 - Developer workload: each developer's total estimated hours are measured against a 40 hour capacity (green up to 32h, yellow up to 40h, red above 40h). Capacity bars appear in the Team Directory, agents see their own capacity meter, and admins and managers get an overload warning. A manager sees only developers on their projects, as hour totals, with no task details from other managers' projects.
 - Overload review before saving: if a transcript would put a developer above 40 hours, nothing is saved. The admin sees an overload alert, can reassign tasks with live capacity recalculation or a one-click suggestion, and then saves. The supplied transcript stays within capacity, so it saves directly.
 - Deadline reminders: a bell in the top bar lists the logged-in user's tasks that are due within 7 days or overdue, and every task row shows the time left. Reminders are measured from the meeting date in the challenge scenario (7 Oct 2026, set by `VITE_DEMO_DATE`); remove that setting to use the real current date.
+- Installable app: on a deployed HTTPS link, an **Install app** button adds the CRM to a phone's home screen or a laptop, with its own icon, opening full screen. The layout adapts to phone, tablet and laptop widths.
 - Demo user switcher in the top bar: it performs a real login as the chosen demo account, so every screen reloads with that user's own permissions from the backend.
 - Saved records persist in a hosted PostgreSQL database (Supabase).
 - Reset demo data button (admin) removes generated projects and tasks and keeps the users.
@@ -51,8 +52,8 @@ Not included, as the challenge says they are not required: forgot password, emai
 ## Run Locally
 1. Clone this repository and enter its directory:
    ```sh
-   git clone [YOUR_REPOSITORY_URL]
-   cd infinity-hack
+   git clone https://github.com/QURSAM-70179225/Infinity-Hackathon.git
+   cd Infinity-Hackathon
    ```
 2. Install dependencies:
    ```sh
@@ -99,6 +100,7 @@ Not included, as the challenge says they are not required: forgot password, emai
 | `OPENROUTER_MODEL` | Optional backup model, default `openrouter/free` | backend |
 | `SESSION_SECRET` | Signs login tokens | backend only |
 | `CORS_ORIGIN` | Frontend URL allowed to call the API when deployed | backend |
+| `DB_MODE` | `supabase` (default) or `local` for a file database | backend |
 | `PORT` | API port, default 5000 | backend |
 | `VITE_API_URL` | Backend endpoint, default `http://localhost:5000` | frontend |
 | `VITE_DEMO_DATE` | Optional date that deadline reminders are measured from | frontend |
@@ -144,23 +146,26 @@ To reset between tests, log in as admin and click **Reset demo data** on the hom
 - Database: Supabase hosted PostgreSQL
 - Deployed branch/commit: [branch and commit SHA]
 
+Full step-by-step instructions are in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
 ### How We Deployed
 1. Frontend on Vercel: root directory `frontend`, build command `npm run build`, output directory `dist`. `frontend/vercel.json` sends all routes to `index.html`.
 2. Backend on Render (Web Service): root directory `backend`, build command `npm install`, start command `npm start`.
 3. Database: the same Supabase project, reached over HTTPS. No extra SSL setup is needed.
-4. Environment variables on Render: `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `GROQ_API_KEY`, `OPENROUTER_API_KEY`, `SESSION_SECRET`, `CORS_ORIGIN`. On Vercel: `VITE_API_URL`.
+4. Environment variables on Render: `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `GROQ_API_KEY`, `OPENROUTER_API_KEY`, `SESSION_SECRET`, `DB_MODE`, `CORS_ORIGIN`. On Vercel: `VITE_API_URL`, `VITE_DEMO_DATE`.
 5. Schema and seed: `backend/sql/schema.sql` was run in the Supabase SQL Editor, then `npm run seed` was run locally against the same database.
 6. `VITE_API_URL` is the Render URL, and `CORS_ORIGIN` on Render is the Vercel URL.
 7. Judges open the live link, log in with any demo account above, and use Create from Transcript as admin.
 
 ## Known Limitations
 - The free AI tier has rate limits. If the AI is busy, the app shows a clear message and saves nothing; try again after a few seconds.
+- The Install app button appears only where the browser supports installing (Chrome or Edge over HTTPS). On iPhone the app is added through Safari's Share menu.
 - A free Render service sleeps when idle, so the first request after a pause can take up to a minute.
 - A task's owner can be changed in the interface. Other task fields can be changed through the API only.
 - AI output can vary slightly in wording of descriptions. Owners, dates and hours are validated before saving.
 
 ## Submission Summary
-- Source repository: [URL]
+- Source repository: https://github.com/QURSAM-70179225/Infinity-Hackathon
 - Live link or local demo video: [URL]
 - Setup and seed commands: documented above
 - Demo login accounts: listed above

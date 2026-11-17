@@ -19,6 +19,9 @@ Team leader: Qursam Bibi
 | 2:40–2:55 | Record demo video, rehearse demo |
 | 2:55–3:00 | Submit. Stop coding. |
 
+## Guides
+Each member has a guide with their files and phases in `team/<name>/GUIDE.md`.
+
 ## Rules to remember
 - Only the 4 registered members work on the project.
 - No sharing code with other teams.

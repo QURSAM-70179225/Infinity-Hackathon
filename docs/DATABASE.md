@@ -1,95 +1,43 @@
 # Database
 
-**Choice:** Supabase (hosted PostgreSQL).
-**Why:** the app is deployed on Render / Vercel, where local files are not kept, so the data must live in a hosted database. Supabase is free, needs no server setup, and has a simple JavaScript client.
+## Choice
+Supabase (hosted PostgreSQL). The app is deployed on Render and Vercel, where local files are not kept, so the data lives in a hosted database. Only the backend talks to it.
 
-The backend talks to Supabase. The frontend never talks to the database directly.
+## Setup
+1. Create a project at supabase.com.
+2. Copy the Project URL and the secret key (`sb_secret_...`) from Settings > API Keys.
+3. Add them to `backend/.env`:
+   ```
+   SUPABASE_URL=https://your-project.supabase.co
+   SUPABASE_SECRET_KEY=sb_secret_your_key_here
+   DB_MODE=supabase
+   ```
+4. Open the Supabase SQL Editor, paste all of `backend/sql/schema.sql`, and click Run.
+5. Seed the ten demo users:
+   ```
+   cd backend
+   npm run seed
+   ```
 
-## Setup (once)
-1. Create a project at supabase.com and wait for it to finish setting up.
-2. Copy the **Project URL** and the **secret key** (`sb_secret_...`) from Settings → API Keys.
-3. Add both to `backend/.env`:
-```
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_SECRET_KEY=sb_secret_your_key_here
-```
-4. Install the client:
-```
-cd backend
-npm install @supabase/supabase-js
-```
-The secret key has full access to the database. Keep it in the backend only.
-
-## 1. Connection file — create tomorrow as `backend/src/utils/supabase.js`
-```js
-const { createClient } = require("@supabase/supabase-js");
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SECRET_KEY
-);
-
-module.exports = supabase;
-```
-`require("dotenv").config()` must run first, at the top of `backend/src/index.js`.
-
-## 2. Create tables (Supabase dashboard → SQL Editor → Run)
-```sql
-create table items (
-  id bigint generated always as identity primary key,
-  title text not null,
-  result jsonb,
-  created_at timestamptz default now()
-);
-```
-Replace `items` and its columns with what the problem needs.
-
-## 3. Common queries
-```js
-const supabase = require("../utils/supabase");
-
-// Insert (returns the new row)
-const { data, error } = await supabase
-  .from("items")
-  .insert({ title, result })
-  .select()
-  .single();
-
-// Read all
-const { data, error } = await supabase
-  .from("items")
-  .select("*")
-  .order("id", { ascending: false });
-
-// Read one
-const { data, error } = await supabase
-  .from("items")
-  .select("*")
-  .eq("id", id)
-  .single();
-
-// Update
-const { error } = await supabase.from("items").update({ title }).eq("id", id);
-
-// Delete
-const { error } = await supabase.from("items").delete().eq("id", id);
-```
-Always check `error` after every query and return a clear message if it is set.
-
-## 4. Storing AI output
-Use a `jsonb` column and pass the JSON object directly. No `JSON.stringify` needed.
-
-## 5. Deployment
-Add the same variables in the Render dashboard (Environment tab) for the backend:
-`GROQ_API_KEY`, `OPENROUTER_API_KEY`, `SUPABASE_URL`, `SUPABASE_SECRET_KEY`.
-The `.env` file is not uploaded, so the deployed app fails without them.
-
-## Tables (fill after the problem is announced)
+## Tables
 | Table | Columns | Purpose |
 |---|---|---|
-| _TBD_ | _TBD_ | _TBD_ |
+| `users` | id, ref, name, email, password_hash, role, specialization, skills | The team. `ref` is the directory code (PM01, DEV01). `role` is ADMIN, MANAGER or AGENT |
+| `projects` | id, name, client_name, description, manager_id, deadline | One row per client project. `manager_id` points to a user |
+| `tasks` | id, project_id, title, description, assignee_id, deadline, estimated_hours | One row per task. Deleted with its project |
+
+## The save function
+`create_projects_from_draft(draft, replace_existing)` in `schema.sql` inserts every project and task of a transcript in one transaction. If one insert fails, all are rolled back. A project with the same name is replaced, so running a transcript twice does not duplicate it.
+
+## Security
+- Row level security is on for all three tables, with no public policies. A browser key gets no data.
+- The backend uses the secret key, which stays in `backend/.env` and in the Render environment settings.
+- Passwords are stored as scrypt hashes.
+
+## Local mode
+If Supabase cannot be reached (for example on a restricted network), set `DB_MODE=local` in `backend/.env` and run `npm run seed` again. Data is then stored in `backend/data/db.json`. All features work the same. A deployed app must use `DB_MODE=supabase`.
 
 ## To explain to judges
 - Supabase is hosted PostgreSQL, so data survives restarts and redeploys.
 - Only the backend holds the secret key; the browser never sees it.
-- The Supabase client builds parameterised queries, which prevents SQL injection.
+- One file, `backend/src/services/db.js`, chooses the database. The rest of the code is the same for both.

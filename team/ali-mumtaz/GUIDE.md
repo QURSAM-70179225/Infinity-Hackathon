@@ -56,3 +56,18 @@ Deploy the backend on Render: New > Web Service > your repo. Root directory `bac
 - *Where does the role come from?* From the database, looked up with the user ID inside the signed token.
 - *What happens if the seed runs twice?* Nothing changes. It upserts by the unique email.
 - *Why is the secret key only in the backend?* It has full database access. Row level security is on, so a browser key gets no data.
+
+## Added later (also yours)
+| File | What it does |
+|---|---|
+| `backend/src/services/db.js` | Chooses the database: Supabase, or a local file when `DB_MODE=local` |
+| `backend/src/services/supabaseDb.js`, `localDb.js` | The same query functions for each database |
+| `backend/src/services/workload.js` | Developer hours against the 40 hour capacity, limited by role |
+| `backend/src/controllers/authController.js` (signup) | New accounts: company email only, always a developer agent |
+| `backend/src/controllers/projectController.js` | Also: create project, add task, reassign task, change role, workload |
+
+- **Signup:** the role is never read from the request, so nobody can sign up as admin.
+- **Role change:** admin only. Refused while the member still has tasks or still manages projects.
+- **Tasks:** a manager can add or reassign tasks only inside their own projects; the check is in `access.getProjectFor`.
+- **Workload for managers:** they receive hour totals for developers on their projects, never task details from other managers' projects.
+- **Deploy:** follow `docs/DEPLOYMENT.md`, section 2.

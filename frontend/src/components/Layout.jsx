@@ -7,6 +7,7 @@ import { ROLE_LABEL } from '../utils/format.js'
 import { DEMO_ACCOUNTS, DEMO_PASSWORD } from '../utils/demoAccounts.js'
 import Icon from './Icon.jsx'
 import Reminders from './Reminders.jsx'
+import InstallButton from './InstallButton.jsx'
 import { Avatar, Spinner } from './States.jsx'
 
 const NAV = {
@@ -114,7 +115,8 @@ export default function Layout() {
             <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold tracking-wide ${badge.style}`}>{badge.label}</span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <InstallButton />
             <Reminders userId={user.id} role={user.role} />
             <label htmlFor="demo-switch" className="hidden text-xs font-medium text-slate-500 sm:block">
               Demo: switch user
@@ -126,7 +128,7 @@ export default function Layout() {
                 value={isDemoUser ? user.email : ''}
                 disabled={switching}
                 onChange={(event) => switchUser(event.target.value)}
-                className="rounded-full bg-transparent py-1 pr-2 text-sm font-semibold text-slate-800 outline-none disabled:opacity-50"
+                className="max-w-[150px] rounded-full bg-transparent py-1 pr-2 text-sm font-semibold text-slate-800 outline-none disabled:opacity-50 sm:max-w-none"
               >
                 {!isDemoUser && <option value="">{user.name}</option>}
                 <optgroup label="Administrator">

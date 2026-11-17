@@ -8,6 +8,8 @@
 | AI | `backend/src/services` | Muzammil Hussain |
 | Integration, testing, demo | `frontend/src/services`, `docs/` | Qursam Bibi |
 
+Detailed file lists per member are in `team/<name>/GUIDE.md`.
+
 ## Rules
 - Work only in your own folder to avoid merge conflicts.
 - Commit small and often: `git add .` → `git commit -m "what changed"` → `git pull` → `git push`.

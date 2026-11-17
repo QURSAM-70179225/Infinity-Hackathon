@@ -69,3 +69,17 @@ Admin > Use supplied transcript > Create from Transcript > 3 projects, 12 tasks.
 - *How do the parts connect?* React calls the Express API; the API checks the token, applies the role rules, calls the AI for transcripts, and reads and writes Supabase.
 - *What was the hardest part?* Making the AI follow final decisions, and making sure nothing is saved unless the whole draft is valid.
 - *What would you build next?* Editing, progress tracking, notifications.
+
+## Added later
+| File | What it does |
+|---|---|
+| `docs/DEPLOYMENT.md` | Step-by-step: GitHub, Render, Vercel, connect, test, install on a phone |
+| `docs/DEMO_SCRIPT.md` | Filled demo order and short answers |
+| `CHANGELOG.md` | What was built, in order |
+
+Extra checks before submitting:
+- [ ] Team Directory shows capacity bars; nobody is red after the supplied transcript
+- [ ] Top-bar switcher changes the view for Ayesha, Ali and Hamza
+- [ ] Bell shows deadline reminders
+- [ ] Signup refuses a Gmail address and accepts `@novaworks.example`
+- [ ] On the live link, **Install app** appears on the phone

@@ -66,3 +66,20 @@ Deploy on Vercel: New Project > your repo. Root directory `frontend`, framework 
 - *What stops an agent from opening the admin page?* The admin panel is not rendered for them, and the backend rejects the request with 403 anyway.
 - *Where is the token stored?* In `localStorage`, sent in the `Authorization` header.
 - *Is the transcript button result prefilled?* No. "Use supplied transcript" only fills the input text. The projects come from the AI.
+
+## Added later (also yours)
+| File | What it does |
+|---|---|
+| `frontend/src/pages/Signup.jsx` | Create account form, company email only |
+| `frontend/src/components/AddTaskForm.jsx`, `NewProjectForm.jsx` | Manager adds tasks; admin creates a project by hand |
+| `frontend/src/components/CapacityBar.jsx`, `WorkloadAlert.jsx` | Capacity bars and the overload warning banner |
+| `frontend/src/components/OverloadReview.jsx` | Overload alert before saving, with reassign and live recalculation |
+| `frontend/src/components/Reminders.jsx` | Deadline reminder bell |
+| `frontend/src/components/InstallButton.jsx` | Install app button, shown only when installing is possible |
+| `frontend/public/manifest.webmanifest`, `sw.js`, icons | What makes the site installable |
+| `frontend/src/utils/capacity.js`, `deadline.js`, `demoAccounts.js` | Capacity colours, time-left maths, the ten demo accounts |
+
+- **Top bar:** active user, role badge, Install app, reminder bell, demo user switcher, log out.
+- **Switcher:** it calls the real login API, then the page is remounted so every request is sent again as the new user.
+- **Small screens:** the sidebar becomes a top strip, the top bar wraps, cards stack, and tables scroll inside their box.
+- **Deploy:** follow `docs/DEPLOYMENT.md`, section 3.
