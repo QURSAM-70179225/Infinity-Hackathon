@@ -4,10 +4,15 @@ const crypto = require("crypto");
 
 const EIGHT_HOURS = 8 * 60 * 60;
 
+// The key that signs login tokens.
+// Normally SESSION_SECRET. If it is not set, a key is derived from SUPABASE_SECRET_KEY,
+// which is also private and stays the same between restarts, so logins keep working.
 function secret() {
-  const value = process.env.SESSION_SECRET;
-  if (!value) throw new Error("SESSION_SECRET is missing in backend/.env");
-  return value;
+  const value = (process.env.SESSION_SECRET || "").trim();
+  if (value) return value;
+  const fallback = (process.env.SUPABASE_SECRET_KEY || "").trim();
+  if (fallback) return crypto.createHash("sha256").update(`novaworks-session:${fallback}`).digest("hex");
+  throw new Error("SESSION_SECRET is not set. Add it to backend/.env locally, or in the Render Environment tab when deployed.");
 }
 
 const encode = (obj) => Buffer.from(JSON.stringify(obj)).toString("base64url");

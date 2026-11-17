@@ -48,6 +48,11 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message: err.message || "Something went wrong.", ...(err.details || {}) });
 });
 
+// Startup check: list missing settings by name (never their values) so they show in the Render logs.
+const missing = ["SUPABASE_URL", "SUPABASE_SECRET_KEY", "GROQ_API_KEY", "SESSION_SECRET"].filter((name) => !(process.env[name] || "").trim());
+if ((process.env.DB_MODE || "supabase").trim().toLowerCase() === "local") missing.splice(0, missing.length, ...missing.filter((n) => !n.startsWith("SUPABASE")));
+if (missing.length) console.warn(`Settings not found: ${missing.join(", ")}. Add them to backend/.env or the Render Environment tab.`);
+
 const port = process.env.PORT || 5000;
 if (require.main === module) {
   app.listen(port, () => {
