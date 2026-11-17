@@ -4,7 +4,7 @@ Read this before writing any code for this project. These are the team's standin
 
 ## Project
 Infinity Hack '26 — one problem, 3 hours, a fully working MVP with a live demo.
-Team: Qursam Bibi (leader), Abdul Hameed, Ali Mumtaz, Muzammil Hussain.
+Team Clouder: Qursam Bibi (leader), Abdul Hameed, Muzammil Hussain, Ali Mumtaz.
 
 ## Stack (do not change)
 - Frontend: React + Vite in `frontend/`

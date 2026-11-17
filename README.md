@@ -1,5 +1,7 @@
 # NovaWorks CRM - AI Meeting to Project CRM
 
+_Built by **Team Clouder** for The Infinity Hack '26._
+
 A project management CRM for NovaWorks Technologies. The administrator pastes a meeting transcript, and AI creates the projects and tasks with the right manager, owner, deadline and estimated hours. Each logged-in user sees only the work they are allowed to see.
 
 | | |
@@ -11,12 +13,12 @@ A project management CRM for NovaWorks Technologies. The administrator pastes a 
 Log in with any demo account below (password `Demo123!`), for example `admin@novaworks.example`. The backend runs on a free Render service; if the first login takes up to a minute, it was waking up.
 
 ## Team
-- Team name: [team name]
+- Team name: **Clouder**
 - Four members and responsibilities:
-  - Qursam Bibi (leader): integration, testing, README, deployment, demo
+  - Qursam Bibi (team leader): integration, testing, README, deployment, demo
   - Abdul Hameed: frontend (login, dashboard, project and task screens)
-  - Ali Mumtaz: backend (database, seeding, login, role-based access)
   - Muzammil Hussain: AI (prompt, transcript conversion, validation, all-or-nothing save)
+  - Ali Mumtaz: backend (database, seeding, login, role-based access)
 - Repository: https://github.com/QURSAM-70179225/Infinity-Hackathon
 
 ## Demo Video
@@ -104,77 +106,27 @@ Extras you can try: the **Board** view on a project or on My Tasks, the capacity
 Not included: forgot password, email verification, cost calculation, time tracking. Deleting a single project or task is not built; the admin can reset all generated work.
 
 ## Architecture
-```mermaid
-flowchart LR
-    U["Browser or installed app<br/>React + Vite + Tailwind<br/>(Vercel)"]
-    A["Express API<br/>Node.js<br/>(Render)"]
-    G["Groq LLM"]
-    O["OpenRouter<br/>(backup)"]
-    D[("Supabase<br/>PostgreSQL")]
+![System architecture: browser, Vercel, Express API on Render, Groq AI, Supabase database](https://raw.githubusercontent.com/QURSAM-70179225/Infinity-Hackathon/main/docs/diagrams/architecture.svg)
 
-    U -- "HTTPS, JSON<br/>Authorization: Bearer token" --> A
-    A -- "transcript + team directory" --> G
-    A -. "if Groq fails" .-> O
-    A -- "secret key, server only" --> D
-```
+- The browser only talks to the Vercel domain. Vercel serves the React app and forwards every `/api` request to the Express API on Render.
+- Every request carries a signed login token. The API loads the user from the database and applies the role rules on the server.
+- Only the API holds the database and AI keys. The browser never sees them.
 
-How a transcript becomes saved work:
-```mermaid
-flowchart TD
-    T["Admin pastes transcript"] --> R{"Admin token valid?"}
-    R -- no --> X1["401 / 403"]
-    R -- yes --> AI["AI returns draft JSON<br/>projects and tasks"]
-    AI --> V{"People, dates and<br/>hours valid?"}
-    V -- no --> X2["422: list of problems<br/>nothing saved"]
-    V -- yes --> W{"Any developer<br/>above 40 hours?"}
-    W -- yes --> X3["409: overload review<br/>nothing saved"]
-    W -- no --> S["One transaction saves<br/>all projects and tasks"]
-    X2 --> C["Admin corrects"] --> V
-    X3 --> C2["Admin reassigns<br/>or saves anyway"] --> V
-```
+### From transcript to saved work
+![Transcript flow: paste, AI draft, validate, workload check, transactional save](https://raw.githubusercontent.com/QURSAM-70179225/Infinity-Hackathon/main/docs/diagrams/transcript-flow.svg)
 
 More detail, including the full list of API routes, is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Database
-```mermaid
-erDiagram
-    USERS ||--o{ PROJECTS : "manages"
-    USERS ||--o{ TASKS : "is assigned"
-    PROJECTS ||--o{ TASKS : "contains"
+![Database ERD: users, projects and tasks with their relationships](https://raw.githubusercontent.com/QURSAM-70179225/Infinity-Hackathon/main/docs/diagrams/database-erd.svg)
 
-    USERS {
-        bigint id PK
-        text ref UK "PM01, DEV01"
-        text name
-        text email UK
-        text password_hash "scrypt"
-        text role "ADMIN, MANAGER, AGENT"
-        text specialization
-        text_array skills
-    }
-    PROJECTS {
-        bigint id PK
-        text name
-        text client_name
-        text description
-        bigint manager_id FK "a MANAGER"
-        date deadline
-        timestamptz created_at
-    }
-    TASKS {
-        bigint id PK
-        bigint project_id FK "deleted with project"
-        text title
-        text description
-        bigint assignee_id FK "an AGENT"
-        date deadline
-        numeric estimated_hours "above 0"
-        text status "todo, in_progress, done"
-        timestamptz completed_at "set when done"
-        timestamptz created_at
-    }
-```
-One manager has many projects, one project has many tasks, and one agent has many tasks across projects. The schema is in `backend/sql/schema.sql`. Setup notes are in [docs/DATABASE.md](docs/DATABASE.md).
+| Table | Purpose | Key rules |
+| --- | --- | --- |
+| `users` | The ten seeded staff plus signups | `role` is ADMIN, MANAGER or AGENT; `email` and `ref` (PM01, DEV01) are unique; passwords stored as scrypt hashes |
+| `projects` | One row per client project | `manager_id` must be a MANAGER |
+| `tasks` | One row per task | `assignee_id` must be an AGENT; `estimated_hours` above 0; `status` is todo, in_progress or done; deleted with its project |
+
+The schema is in `backend/sql/schema.sql`. Setup notes are in [docs/DATABASE.md](docs/DATABASE.md).
 
 ## Technology Stack
 - Frontend: React 19 with Vite, Tailwind CSS 4, React Router 7
@@ -368,7 +320,7 @@ Infinity-Hackathon/
 ## License
 Released under the MIT License. See [LICENSE](LICENSE).
 
-Copyright (c) 2026 Abdul Hameed, Ali Mumtaz, Muzammil Hussain, Qursam Bibi.
+Copyright (c) 2026 Team Clouder: Qursam Bibi, Abdul Hameed, Muzammil Hussain, Ali Mumtaz.
 
 ## Submission Summary
 - Source repository: https://github.com/QURSAM-70179225/Infinity-Hackathon
