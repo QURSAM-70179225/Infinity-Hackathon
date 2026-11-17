@@ -5,7 +5,7 @@ A project management CRM for NovaWorks Technologies. The administrator pastes a 
 | | |
 | --- | --- |
 | **Live application** | https://infinity-hack-plum.vercel.app |
-| **Demo video (3 min)** | [Watch the demo](DEMO_VIDEO_URL) |
+| **Demo video** | [Watch the demo](https://github.com/QURSAM-70179225/Infinity-Hackathon/blob/main/docs/demo/novaworks-demo.mp4) |
 | **Repository** | https://github.com/QURSAM-70179225/Infinity-Hackathon |
 
 Log in with any demo account below (password `Demo123!`), for example `admin@novaworks.example`. The backend runs on a free Render service; if the first login takes up to a minute, it was waking up.
@@ -20,43 +20,39 @@ Log in with any demo account below (password `Demo123!`), for example `admin@nov
 - Repository: https://github.com/QURSAM-70179225/Infinity-Hackathon
 
 ## Demo Video
-[![Watch the 3 minute demo](docs/screenshots/02-admin-dashboard.png)](DEMO_VIDEO_URL)
+[![Demo video preview: click to watch the full video](https://raw.githubusercontent.com/QURSAM-70179225/Infinity-Hackathon/main/docs/demo/novaworks-demo-preview.gif)](https://github.com/QURSAM-70179225/Infinity-Hackathon/blob/main/docs/demo/novaworks-demo.mp4)
 
-**[Watch the 3 minute demo](DEMO_VIDEO_URL)**
+**[Watch the full demo video (1 min 40 s)](https://github.com/QURSAM-70179225/Infinity-Hackathon/blob/main/docs/demo/novaworks-demo.mp4)**. The animated preview above plays at double speed. The video file is also in this repository at `docs/demo/novaworks-demo.mp4`.
 
-What the video shows:
-| Time | Part |
-| --- | --- |
-| 0:00 | The problem and the login page with the ten demo accounts |
-| 0:20 | Admin pastes the supplied transcript; AI creates 3 projects and 12 tasks |
-| 0:50 | UrbanCart detail: manager, 20 October deadline, corrected decisions, nothing rejected |
-| 1:20 | Role-based access: Ayesha, Ali and Hamza each see only their work; blocked direct access |
-| 1:55 | Kanban board, developer capacity bars, overload review |
-| 2:25 | Refresh to show saved data; changed transcript; install on a phone |
-| 2:50 | What we would build next |
+What the video shows, on the live site:
+1. Logging in with a demo account.
+2. The Team Directory with reference codes, roles and capacity bars.
+3. A project's tasks on the Kanban board, with overdue deadlines in red.
+4. Switching to Hina Malik (manager): only her project.
+5. Switching to Hamza Shah (developer): My Tasks and his board show only his own tasks.
 
 ## Screenshots
 **Login** with the ten demo accounts and their reference codes
-![Login page](docs/screenshots/01-login.png)
+![Login page](https://raw.githubusercontent.com/QURSAM-70179225/Infinity-Hackathon/main/docs/screenshots/01-login.png)
 
 **Admin dashboard** after Create from Transcript: 3 projects, 12 tasks
-![Admin dashboard](docs/screenshots/02-admin-dashboard.png)
+![Admin dashboard](https://raw.githubusercontent.com/QURSAM-70179225/Infinity-Hackathon/main/docs/screenshots/02-admin-dashboard.png)
 
 **Project detail**: client, manager, deadline 20 Oct 2026, 40 hours
-![Project detail](docs/screenshots/03-project-detail.png)
+![Project detail](https://raw.githubusercontent.com/QURSAM-70179225/Infinity-Hackathon/main/docs/screenshots/03-project-detail.png)
 
 **Task list** with owners, deadlines, time left and estimated hours
-![Task list](docs/screenshots/04-task-list.png)
+![Task list](https://raw.githubusercontent.com/QURSAM-70179225/Infinity-Hackathon/main/docs/screenshots/04-task-list.png)
 
 **Kanban board**: To Do, In Progress, Done
-![Kanban board](docs/screenshots/05-kanban-board.png)
+![Kanban board](https://raw.githubusercontent.com/QURSAM-70179225/Infinity-Hackathon/main/docs/screenshots/05-kanban-board.png)
 
 **Team directory** with reference codes, role control and 40 hour capacity bars
-![Team directory](docs/screenshots/06-team-capacity.png)
+![Team directory](https://raw.githubusercontent.com/QURSAM-70179225/Infinity-Hackathon/main/docs/screenshots/06-team-capacity.png)
 
 | Demo user switcher | On a phone | Installed app |
 | --- | --- | --- |
-| <img src="docs/screenshots/07-user-switcher.png" alt="Demo user switcher" width="260"> | <img src="docs/screenshots/08-mobile-login.png" alt="Login on a phone" width="260"> | <img src="docs/screenshots/09-installed-icon.png" alt="Installed app icon on a phone home screen" width="160"> |
+| <img src="https://raw.githubusercontent.com/QURSAM-70179225/Infinity-Hackathon/main/docs/screenshots/07-user-switcher.png" alt="Demo user switcher" width="260"> | <img src="https://raw.githubusercontent.com/QURSAM-70179225/Infinity-Hackathon/main/docs/screenshots/08-mobile-login.png" alt="Login on a phone" width="260"> | <img src="https://raw.githubusercontent.com/QURSAM-70179225/Infinity-Hackathon/main/docs/screenshots/09-installed-icon.png" alt="Installed app icon on a phone home screen" width="160"> |
 
 ## Judges Guide
 A five-minute path through everything the challenge asks for. Use the **Demo: switch user** pill in the top bar to change accounts; it performs a real login each time.
@@ -189,7 +185,7 @@ One manager has many projects, one project has many tasks, and one agent has man
 
 ## Links
 - Live application: https://infinity-hack-plum.vercel.app
-- Demo video: [Watch the demo](DEMO_VIDEO_URL)
+- Demo video: [Watch the demo](https://github.com/QURSAM-70179225/Infinity-Hackathon/blob/main/docs/demo/novaworks-demo.mp4)
 
 ## Requirements
 - Node.js 18 or newer, with npm
@@ -377,7 +373,7 @@ Copyright (c) 2026 Abdul Hameed, Ali Mumtaz, Muzammil Hussain, Qursam Bibi.
 ## Submission Summary
 - Source repository: https://github.com/QURSAM-70179225/Infinity-Hackathon
 - Live link: https://infinity-hack-plum.vercel.app
-- Demo video: [Watch the demo](DEMO_VIDEO_URL)
+- Demo video: [Watch the demo](https://github.com/QURSAM-70179225/Infinity-Hackathon/blob/main/docs/demo/novaworks-demo.mp4)
 - Setup and seed commands: documented above
 - Demo login accounts: listed above
 - Features completed: login, role-based access enforced in the API, transcript to projects and tasks with validation, project and task screens, team directory, persistent hosted database, reset; plus Kanban board, workload and overload review, manual management, signup, reminders, installable app
