@@ -50,7 +50,12 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT || 5000;
 if (require.main === module) {
-  app.listen(port, () => console.log(`API running on http://localhost:${port}`));
+  app.listen(port, () => {
+    // On Render, PORT is set by Render and the API is reached through the service's public https URL,
+    // not through localhost. Locally, it is http://localhost:5000.
+    if (process.env.RENDER) console.log(`API listening on internal port ${port}. Use the public Render URL, for example /api/health.`);
+    else console.log(`API running on http://localhost:${port}`);
+  });
 }
 
 module.exports = app;
