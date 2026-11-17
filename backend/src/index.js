@@ -9,10 +9,32 @@ const routes = require("./routes");
 const app = express();
 
 // Allow the frontend to call this API. CORS_ORIGIN can list allowed sites when deployed.
-const allowed = (process.env.CORS_ORIGIN || "").split(",").map((s) => s.trim()).filter(Boolean);
-app.use(cors({ origin: allowed.length ? allowed : true }));
+// Values are cleaned first, so "https://site.vercel.app/" or "https://site.vercel.app/login"
+// still match the browser's origin "https://site.vercel.app".
+function cleanOrigin(value) {
+  try {
+    return new URL(value.trim()).origin;
+  } catch {
+    return value.trim().replace(/\/+$/, "");
+  }
+}
+const allowed = (process.env.CORS_ORIGIN || "").split(",").map(cleanOrigin).filter(Boolean);
+app.use(
+  cors({
+    origin: (origin, done) => {
+      // No origin: same-site requests, health checks, curl. Local development is always allowed.
+      if (!origin || allowed.length === 0 || allowed.includes(origin) || /^http:\/\/localhost(:\d+)?$/.test(origin)) {
+        return done(null, true);
+      }
+      console.warn(`CORS blocked a request from ${origin}. Allowed: ${allowed.join(", ")}`);
+      return done(null, false);
+    },
+  })
+);
 app.use(express.json({ limit: "1mb" }));
 
+// Opening the bare backend address shows this instead of "Route not found".
+app.get("/", (req, res) => res.json({ ok: true, service: "NovaWorks CRM API", health: "/api/health" }));
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 app.use("/api", routes);
 

@@ -1,5 +1,9 @@
 // One place for every call to the backend. Adds the login token automatically.
-const BASE = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/$/, '')
+// The backend address, cleaned so a trailing slash or a trailing /api cannot break the URLs.
+const BASE = (import.meta.env.VITE_API_URL || 'http://localhost:5000')
+  .trim()
+  .replace(/\/+$/, '')
+  .replace(/\/api$/, '')
 const TOKEN_KEY = 'novaworks_token'
 
 export function getToken() {
