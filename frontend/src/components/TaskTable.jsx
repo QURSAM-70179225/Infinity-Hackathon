@@ -6,6 +6,12 @@ import { formatDate } from '../utils/format.js'
 import { TONE_STYLE, timeLeft } from '../utils/deadline.js'
 import { Avatar } from './States.jsx'
 
+const STATUS_STYLE = {
+  todo: { label: 'To Do', style: 'bg-slate-100 text-slate-700' },
+  in_progress: { label: 'In Progress', style: 'bg-indigo-100 text-indigo-800' },
+  done: { label: 'Done', style: 'bg-emerald-100 text-emerald-800' },
+}
+
 export default function TaskTable({ tasks, showProject = false, agents = null, onReassign = null, busyId = null }) {
   const totalHours = tasks.reduce((sum, task) => sum + task.estimatedHours, 0)
   const canReassign = Boolean(agents && onReassign)
@@ -27,7 +33,12 @@ export default function TaskTable({ tasks, showProject = false, agents = null, o
             {tasks.map((task) => (
               <tr key={task.id} className="align-top transition-colors hover:bg-slate-50">
                 <td className="px-5 py-4">
-                  <p className="font-semibold text-slate-900">{task.title}</p>
+                  <p className="font-semibold text-slate-900">
+                    {task.title}
+                    <span className={`ml-2 rounded-full px-2 py-0.5 align-middle text-[11px] font-bold ${STATUS_STYLE[task.status || 'todo'].style}`}>
+                      {STATUS_STYLE[task.status || 'todo'].label}
+                    </span>
+                  </p>
                   <p className="mt-0.5 max-w-md text-slate-500">{task.description}</p>
                 </td>
                 {showProject && (

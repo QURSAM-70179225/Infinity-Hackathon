@@ -16,4 +16,5 @@ What was built during the hackathon, in order.
 | 10 | Demo | User switcher in the top bar that performs a real login |
 | 11 | Reminders | Deadline reminder bell and time-left badges on tasks |
 | 12 | Mobile | Installable app (home screen icon, opens full screen) and small-screen layout fixes |
-| 13 | Docs | README in the required template, deployment guide, team guides |
+| 13 | Board | Kanban board with To Do, In Progress and Done; status changes checked on the server; 11 automated tests |
+| 14 | Docs | README in the required template, deployment guide, team guides |

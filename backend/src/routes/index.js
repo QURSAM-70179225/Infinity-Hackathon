@@ -4,6 +4,7 @@ const { requireAuth, requireRole } = require("../middleware/auth");
 const auth = require("../controllers/authController");
 const projects = require("../controllers/projectController");
 const transcript = require("../controllers/transcriptController");
+const board = require("../controllers/boardController");
 
 const router = express.Router();
 
@@ -17,6 +18,11 @@ router.get("/projects", requireAuth, projects.list);
 router.get("/projects/:id", requireAuth, projects.detail);
 router.get("/tasks/mine", requireAuth, projects.myTasks);
 router.get("/workload", requireAuth, projects.workloadFor);
+
+// Kanban board. Any logged-in user; the controller limits each role to its own tasks.
+router.get("/projects/:id/board", requireAuth, board.projectBoard);
+router.get("/board/my-tasks", requireAuth, board.myBoard);
+router.patch("/tasks/:id/status", requireAuth, board.changeStatus);
 
 // Admin and managers. A manager is limited to their own projects inside the controller.
 router.post("/projects/:id/tasks", requireAuth, requireRole("ADMIN", "MANAGER"), projects.addTask);

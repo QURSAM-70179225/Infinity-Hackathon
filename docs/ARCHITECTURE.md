@@ -22,7 +22,8 @@ Supabase (hosted PostgreSQL): users, projects, tasks
 | `frontend/src/utils` | Login state, formatting, capacity rules, deadline maths, demo accounts, supplied transcript |
 | `backend/src/routes` | The list of API routes |
 | `backend/src/middleware` | `requireAuth`, `requireRole` |
-| `backend/src/controllers` | Request handling for auth, projects and team, transcript |
+| `backend/src/controllers` | Request handling for auth, projects and team, transcript, Kanban board |
+| `backend/tests` | Automated tests, run with `npm test` |
 | `backend/src/services` | `db.js` (chooses the database), `supabaseDb.js`, `localDb.js`, `access.js` role rules, `workload.js` capacity, `ai.js` LLM call |
 | `backend/src/utils` | Password hashing, tokens, draft validation, demo users |
 | `backend/sql` | Database schema and the transactional save function |
@@ -39,6 +40,9 @@ Supabase (hosted PostgreSQL): users, projects, tasks
 | GET | `/api/projects/:id` | logged in | One project, 403 if not allowed |
 | GET | `/api/tasks/mine` | logged in | Tasks this user may see |
 | GET | `/api/workload` | logged in | Developer hours against capacity, limited by role |
+| GET | `/api/projects/:id/board` | logged in | Kanban board of one project; 404 if not allowed |
+| GET | `/api/board/my-tasks` | logged in | Kanban board of the user's own tasks |
+| PATCH | `/api/tasks/:id/status` | admin, project's manager, the assignee | Change a task's status only |
 | POST | `/api/projects/:id/tasks` | admin, project's manager | Add a task and assign an agent |
 | PATCH | `/api/tasks/:id` | admin, project's manager | Edit or reassign a task |
 | POST | `/api/projects` | admin | Create a project by hand and assign a manager |

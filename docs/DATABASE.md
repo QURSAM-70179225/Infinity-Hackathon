@@ -24,7 +24,7 @@ Supabase (hosted PostgreSQL). The app is deployed on Render and Vercel, where lo
 |---|---|---|
 | `users` | id, ref, name, email, password_hash, role, specialization, skills | The team. `ref` is the directory code (PM01, DEV01). `role` is ADMIN, MANAGER or AGENT |
 | `projects` | id, name, client_name, description, manager_id, deadline | One row per client project. `manager_id` points to a user |
-| `tasks` | id, project_id, title, description, assignee_id, deadline, estimated_hours | One row per task. Deleted with its project |
+| `tasks` | id, project_id, title, description, assignee_id, deadline, estimated_hours, status, completed_at | One row per task. Deleted with its project. `status` is `todo`, `in_progress` or `done`; `completed_at` is set when it reaches done |
 
 ## The save function
 `create_projects_from_draft(draft, replace_existing)` in `schema.sql` inserts every project and task of a transcript in one transaction. If one insert fails, all are rolled back. A project with the same name is replaced, so running a transcript twice does not duplicate it.

@@ -5,6 +5,8 @@ import { useAuth } from '../utils/auth.jsx'
 import { formatDate, plural } from '../utils/format.js'
 import TaskTable from '../components/TaskTable.jsx'
 import AddTaskForm from '../components/AddTaskForm.jsx'
+import KanbanBoard from '../components/KanbanBoard.jsx'
+import ViewToggle from '../components/ViewToggle.jsx'
 import Icon from '../components/Icon.jsx'
 import { Avatar, EmptyState, ErrorBox, PageLoader } from '../components/States.jsx'
 
@@ -33,6 +35,7 @@ export default function ProjectDetail() {
   const [error, setError] = useState(null)
   const [actionError, setActionError] = useState('')
   const [busyId, setBusyId] = useState(null)
+  const [view, setView] = useState('list')
 
   const load = useCallback(async () => {
     try {
@@ -136,12 +139,17 @@ export default function ProjectDetail() {
               You see only the tasks assigned to you.
             </p>
           )}
-          {canManage && <AddTaskForm project={project} agents={agents} onAdded={load} />}
+          <div className="flex flex-wrap items-center gap-3">
+            {project.tasks.length > 0 && <ViewToggle value={view} onChange={setView} />}
+            {canManage && <AddTaskForm project={project} agents={agents} onAdded={load} />}
+          </div>
         </div>
 
         {actionError && <ErrorBox message={actionError} />}
 
-        {project.tasks.length > 0 ? (
+        {project.tasks.length > 0 && view === 'board' ? (
+          <KanbanBoard tasks={project.tasks} onChanged={load} />
+        ) : project.tasks.length > 0 ? (
           <TaskTable
             tasks={project.tasks}
             agents={canManage && agents.length > 0 ? agents : null}

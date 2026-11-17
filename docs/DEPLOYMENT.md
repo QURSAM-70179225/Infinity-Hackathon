@@ -7,6 +7,9 @@ Frontend on Vercel, backend on Render, database on Supabase. Do the steps in thi
 - The tables exist and the ten users are seeded in Supabase.
 - The code is on GitHub, and `.env` files are not in the repository.
 
+## 0. Update the database
+Whenever `backend/sql/schema.sql` has changed (for example the Kanban board added `status` and `completed_at` to tasks), run the whole file again in the Supabase SQL Editor before deploying. It is safe to run again and keeps existing data.
+
 ## 1. Push to GitHub
 ```
 git add .

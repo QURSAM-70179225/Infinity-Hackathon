@@ -17,6 +17,8 @@ function shapeTask(task, project, usersById) {
     description: task.description || "",
     deadline: task.deadline,
     estimatedHours: Number(task.estimated_hours),
+    status: task.status || "todo",
+    completedAt: task.completed_at || null,
     assignee: assignee
       ? { id: assignee.id, name: assignee.name, specialization: assignee.specialization }
       : { id: null, name: "Unknown", specialization: "" },

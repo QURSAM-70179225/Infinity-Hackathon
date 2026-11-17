@@ -6,12 +6,16 @@ import { plural } from '../utils/format.js'
 import { CAPACITY } from '../utils/capacity.js'
 import TaskTable from '../components/TaskTable.jsx'
 import CapacityBar from '../components/CapacityBar.jsx'
+import KanbanBoard from '../components/KanbanBoard.jsx'
+import ViewToggle from '../components/ViewToggle.jsx'
 import { EmptyState, ErrorBox, PageLoader } from '../components/States.jsx'
 
 export default function MyTasks() {
   const { user } = useAuth()
   const [tasks, setTasks] = useState(null)
   const [capacity, setCapacity] = useState(null)
+  const [boardTasks, setBoardTasks] = useState([])
+  const [view, setView] = useState('list')
   const [error, setError] = useState('')
 
   const isAgent = user.role === 'AGENT'
@@ -21,6 +25,9 @@ export default function MyTasks() {
     try {
       const data = await api('/tasks/mine')
       setTasks(data.tasks)
+      // The board shows only tasks assigned to the logged-in user, whatever their role.
+      const mine = await api('/board/my-tasks')
+      setBoardTasks([...mine.board.todo, ...mine.board.in_progress, ...mine.board.done])
       if (isAgent) {
         // For an agent the backend returns only their own workload entry.
         const workload = await api('/workload')
@@ -67,7 +74,23 @@ export default function MyTasks() {
 
       {error && <ErrorBox message={error} onRetry={load} />}
       {!tasks && !error && <PageLoader label="Loading tasks" />}
-      {tasks && tasks.length > 0 && <TaskTable tasks={tasks} showProject />}
+      {tasks && tasks.length > 0 && (
+        <section className="space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-lg font-bold tracking-tight text-slate-900">{view === 'board' ? 'My board' : 'Task list'}</h2>
+            <ViewToggle value={view} onChange={setView} />
+          </div>
+          {view === 'board' ? (
+            boardTasks.length > 0 ? (
+              <KanbanBoard tasks={boardTasks} onChanged={load} />
+            ) : (
+              <EmptyState icon="tasks" title="No tasks assigned to you" text="The board shows only tasks where you are the assignee." />
+            )
+          ) : (
+            <TaskTable tasks={tasks} showProject />
+          )}
+        </section>
+      )}
       {tasks && tasks.length === 0 && !error && (
         <EmptyState
           icon="tasks"

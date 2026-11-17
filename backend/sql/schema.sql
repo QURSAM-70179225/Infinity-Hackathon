@@ -30,8 +30,14 @@ create table if not exists tasks (
   assignee_id bigint not null references users (id),
   deadline date not null,
   estimated_hours numeric not null check (estimated_hours > 0),
+  status text not null default 'todo' check (status in ('todo', 'in_progress', 'done')),
+  completed_at timestamptz,
   created_at timestamptz not null default now()
 );
+
+-- For a database created before the Kanban board existed: add the two columns.
+alter table tasks add column if not exists status text not null default 'todo' check (status in ('todo', 'in_progress', 'done'));
+alter table tasks add column if not exists completed_at timestamptz;
 
 create index if not exists tasks_project_idx on tasks (project_id);
 create index if not exists tasks_assignee_idx on tasks (assignee_id);
