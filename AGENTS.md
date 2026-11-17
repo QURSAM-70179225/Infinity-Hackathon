@@ -10,7 +10,7 @@ Team: Qursam Bibi (leader), Abdul Hameed, Ali Mumtaz, Muzammil Hussain.
 - Frontend: React + Vite in `frontend/`
 - Backend: Node.js + Express in `backend/`, entry `backend/src/index.js`
 - AI: Groq API (`GROQ_API_KEY`), backup OpenRouter (`OPENROUTER_API_KEY`)
-- Database: Supabase via `@supabase/supabase-js`, client in `backend/src/utils/supabase.js`
+- Database: Supabase via `@supabase/supabase-js`, client in `backend/src/utils/supabase.js`, schema in `backend/sql/schema.sql`
 - Deploy: Vercel (frontend), Render (backend)
 
 ## 1. Git and GitHub

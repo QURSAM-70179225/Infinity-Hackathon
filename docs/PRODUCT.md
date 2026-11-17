@@ -1,31 +1,29 @@
 # Product Essentials
 
-Fill this in during the first 15 minutes. Keep every answer to one or two lines.
-
 ## 1. Problem
-_What exactly is the problem, in our own words?_
+After a planning meeting, someone has to type every project, task, owner, deadline and estimate into the CRM by hand. It is slow and decisions that changed during the meeting get entered wrongly.
 
 ## 2. Target user
-_Who has this problem?_
+NovaWorks Technologies: one administrator, three project managers and six developer agents.
 
-## 3. Core flow (the ONE thing that must work)
-1. User does: _TBD_
-2. App does: _TBD_
-3. User gets: _TBD_
+## 3. Core flow
+1. The administrator logs in and pastes the meeting transcript.
+2. AI reads it with the team directory and returns projects and tasks using only final decisions.
+3. The app validates the result and saves it. Managers see their projects; agents see their tasks.
 
-## 4. MVP features (max 3)
-- [ ] _TBD_
-- [ ] _TBD_
-- [ ] _TBD_
+## 4. MVP features
+- [x] Login with ten seeded demo accounts and role-based access enforced in the API
+- [x] Create from Transcript: AI to validated, saved projects and tasks
+- [x] Project cards, project detail with task rows, My Tasks, team directory
 
-## 5. Not building (say no early)
-- _TBD_
+## 5. Not building
+Signup, forgot password, user management, cost calculation, progress monitoring.
 
 ## 6. Where AI is used
-_Input → prompt → structured output → shown where?_
+Transcript plus team directory go to the model. It returns one JSON object of projects and tasks. The backend validates it and saves it in one transaction.
 
 ## 7. Why it is useful
-_TBD_
+A one-hour meeting becomes a complete, assigned plan in seconds, and each person sees only their own work.
 
 ## 8. What we would build next
-_TBD_
+Editing tasks, progress tracking, deadline reminders, a calendar view.
