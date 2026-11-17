@@ -1,5 +1,6 @@
 const db = require("../services/db");
 const access = require("../services/access");
+const workload = require("../services/workload");
 const { httpError } = require("../utils/httpError");
 const { isRealDate } = require("../utils/validateDraft");
 
@@ -28,6 +29,11 @@ async function team(req, res) {
   res.json({
     team: users.map(({ id, ref, name, role, specialization, skills }) => ({ id, ref, name, role, specialization, skills })),
   });
+}
+
+// GET /api/workload -> developer hours against the 40 hour capacity, limited by role.
+async function workloadFor(req, res) {
+  res.json({ capacity: workload.CAPACITY, workload: await workload.getWorkloadFor(req.user) });
 }
 
 // DELETE /api/projects -> admin reset of generated projects and tasks. Users are kept.
@@ -150,4 +156,4 @@ async function changeRole(req, res) {
   res.json({ message: `${member.name} is now a ${role === "MANAGER" ? "project manager" : "developer agent"}.` });
 }
 
-module.exports = { list, detail, myTasks, team, reset, create, addTask, updateTask, changeRole };
+module.exports = { list, detail, myTasks, team, workloadFor, reset, create, addTask, updateTask, changeRole };

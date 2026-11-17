@@ -16,6 +16,7 @@ router.get("/team", requireAuth, projects.team);
 router.get("/projects", requireAuth, projects.list);
 router.get("/projects/:id", requireAuth, projects.detail);
 router.get("/tasks/mine", requireAuth, projects.myTasks);
+router.get("/workload", requireAuth, projects.workloadFor);
 
 // Admin and managers. A manager is limited to their own projects inside the controller.
 router.post("/projects/:id/tasks", requireAuth, requireRole("ADMIN", "MANAGER"), projects.addTask);

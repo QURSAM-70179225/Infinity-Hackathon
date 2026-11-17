@@ -6,6 +6,7 @@ import { plural } from '../utils/format.js'
 import ProjectCard from '../components/ProjectCard.jsx'
 import TranscriptPanel from '../components/TranscriptPanel.jsx'
 import NewProjectForm from '../components/NewProjectForm.jsx'
+import WorkloadAlert from '../components/WorkloadAlert.jsx'
 import Icon from '../components/Icon.jsx'
 import { EmptyState, ErrorBox, PageLoader, Spinner } from '../components/States.jsx'
 
@@ -119,6 +120,7 @@ export default function Dashboard() {
 
       {isAdmin && <TranscriptPanel onCreated={load} />}
       {isAdmin && <NewProjectForm onCreated={load} />}
+      {user.role !== 'AGENT' && <WorkloadAlert refreshKey={hours + taskCount} isManager={user.role === 'MANAGER'} />}
 
       {error && <ErrorBox message={error} onRetry={load} />}
 

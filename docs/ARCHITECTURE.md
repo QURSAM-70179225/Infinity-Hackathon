@@ -35,6 +35,7 @@ Supabase (hosted PostgreSQL): users, projects, tasks
 | GET | `/api/projects` | logged in | Projects this user may see |
 | GET | `/api/projects/:id` | logged in | One project, 403 if not allowed |
 | GET | `/api/tasks/mine` | logged in | Tasks this user may see |
+| GET | `/api/workload` | logged in | Developer hours against the 40 hour capacity, limited by role |
 | POST | `/api/auth/signup` | anyone | New account, always a developer agent |
 | POST | `/api/projects` | admin | Create a project by hand and assign a manager |
 | POST | `/api/projects/:id/tasks` | admin, project's manager | Add a task and assign an agent |

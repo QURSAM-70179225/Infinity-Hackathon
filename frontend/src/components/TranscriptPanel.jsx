@@ -3,20 +3,26 @@ import { useState } from 'react'
 import { api } from '../services/api.js'
 import { SAMPLE_TRANSCRIPT } from '../utils/sampleTranscript.js'
 import Icon from './Icon.jsx'
+import OverloadReview from './OverloadReview.jsx'
 import { Spinner } from './States.jsx'
 
 export default function TranscriptPanel({ onCreated }) {
   const [transcript, setTranscript] = useState('')
-  const [status, setStatus] = useState('idle') // idle | loading | success | error | invalid
+  const [status, setStatus] = useState('idle') // idle | loading | success | error | invalid | overload
   const [message, setMessage] = useState('')
   const [issues, setIssues] = useState([])
   const [draftText, setDraftText] = useState('')
+  const [overload, setOverload] = useState(null)
 
   const loading = status === 'loading'
 
   function handleFailure(err) {
-    // 422 means the AI answered, but some people or dates could not be resolved.
-    if (err.status === 422 && err.data?.errors) {
+    if (err.status === 409 && err.data?.code === 'OVERLOAD') {
+      // The draft is valid, but a developer would go over 40 hours. Review before saving.
+      setStatus('overload')
+      setOverload(err.data)
+    } else if (err.status === 422 && err.data?.errors) {
+      // The AI answered, but some people or dates could not be resolved.
       setStatus('invalid')
       setMessage(err.message)
       setIssues(err.data.errors)
@@ -32,6 +38,7 @@ export default function TranscriptPanel({ onCreated }) {
     setMessage(data.model ? `${data.message} Processed by ${data.provider} (${data.model}).` : data.message)
     setIssues([])
     setDraftText('')
+    setOverload(null)
     setTranscript('')
     onCreated()
   }
@@ -46,8 +53,18 @@ export default function TranscriptPanel({ onCreated }) {
     }
   }
 
-  async function saveCorrectedDraft() {
+  // Saves a draft the admin reviewed or corrected. The server validates it again.
+  async function saveDraft(draft, allowOverload = false) {
     if (loading) return
+    setStatus('loading')
+    try {
+      handleSuccess(await api('/transcript/save', { method: 'POST', body: { draft, allowOverload } }))
+    } catch (err) {
+      handleFailure(err)
+    }
+  }
+
+  function saveCorrectedText() {
     let draft
     try {
       draft = JSON.parse(draftText)
@@ -55,12 +72,7 @@ export default function TranscriptPanel({ onCreated }) {
       setMessage('The corrected draft is not valid JSON. Check the commas and quotes.')
       return
     }
-    setStatus('loading')
-    try {
-      handleSuccess(await api('/transcript/save', { method: 'POST', body: { draft } }))
-    } catch (err) {
-      handleFailure(err)
-    }
+    saveDraft(draft)
   }
 
   return (
@@ -111,7 +123,7 @@ export default function TranscriptPanel({ onCreated }) {
           </button>
           {loading && (
             <p className="text-sm text-slate-500">
-              Reading the meeting, matching people to the team directory and checking dates. This takes a few seconds.
+              Reading the meeting, matching people to the team directory, and checking dates and workload. This takes a few seconds.
             </p>
           )}
           {!loading && transcript.trim() && (
@@ -132,6 +144,8 @@ export default function TranscriptPanel({ onCreated }) {
             <p className="text-sm font-medium">{message}</p>
           </div>
         )}
+
+        {status === 'overload' && overload && <OverloadReview key={JSON.stringify(overload.draft)} data={overload} onSave={saveDraft} />}
 
         {status === 'invalid' && (
           <div className="rise mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4" role="alert">
@@ -159,7 +173,7 @@ export default function TranscriptPanel({ onCreated }) {
             />
             <button
               type="button"
-              onClick={saveCorrectedDraft}
+              onClick={saveCorrectedText}
               className="mt-3 rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-amber-600"
             >
               Check again and save

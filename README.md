@@ -23,6 +23,10 @@ A project management CRM for NovaWorks Technologies. The administrator pastes a 
 - Access rules are enforced in the API, not only in the interface. Opening another user's project by ID returns 403.
 - Team directory. The administrator can change a member between developer agent and project manager.
 - Manual management: the administrator can create a project by hand and assign it to a manager. The administrator and the project's own manager can add tasks and assign or reassign them to developer agents. The same checks apply as for AI-created work.
+- Developer workload: each developer's total estimated hours are measured against a 40 hour capacity (green up to 32h, yellow up to 40h, red above 40h). Capacity bars appear in the Team Directory, agents see their own capacity meter, and admins and managers get an overload warning. A manager sees only developers on their projects, as hour totals, with no task details from other managers' projects.
+- Overload review before saving: if a transcript would put a developer above 40 hours, nothing is saved. The admin sees an overload alert, can reassign tasks with live capacity recalculation or a one-click suggestion, and then saves. The supplied transcript stays within capacity, so it saves directly.
+- Deadline reminders: a bell in the top bar lists the logged-in user's tasks that are due within 7 days or overdue, and every task row shows the time left. Reminders are measured from the meeting date in the challenge scenario (7 Oct 2026, set by `VITE_DEMO_DATE`); remove that setting to use the real current date.
+- Demo user switcher in the top bar: it performs a real login as the chosen demo account, so every screen reloads with that user's own permissions from the backend.
 - Saved records persist in a hosted PostgreSQL database (Supabase).
 - Reset demo data button (admin) removes generated projects and tasks and keeps the users.
 
@@ -97,6 +101,7 @@ Not included, as the challenge says they are not required: forgot password, emai
 | `CORS_ORIGIN` | Frontend URL allowed to call the API when deployed | backend |
 | `PORT` | API port, default 5000 | backend |
 | `VITE_API_URL` | Backend endpoint, default `http://localhost:5000` | frontend |
+| `VITE_DEMO_DATE` | Optional date that deadline reminders are measured from | frontend |
 
 `.env.example` files with placeholders are in `backend/` and `frontend/`. Real keys are never committed. No AI or database secret is exposed to the browser.
 

@@ -3,6 +3,7 @@
 // the owner becomes a dropdown so the task can be given to another agent.
 import { Link } from 'react-router-dom'
 import { formatDate } from '../utils/format.js'
+import { TONE_STYLE, timeLeft } from '../utils/deadline.js'
 import { Avatar } from './States.jsx'
 
 export default function TaskTable({ tasks, showProject = false, agents = null, onReassign = null, busyId = null }) {
@@ -62,7 +63,12 @@ export default function TaskTable({ tasks, showProject = false, agents = null, o
                     </div>
                   )}
                 </td>
-                <td className="whitespace-nowrap px-5 py-4 text-slate-700">{formatDate(task.deadline)}</td>
+                <td className="whitespace-nowrap px-5 py-4 text-slate-700">
+                  <p>{formatDate(task.deadline)}</p>
+                  <span className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[11px] font-bold ${TONE_STYLE[timeLeft(task.deadline).tone]}`}>
+                    {timeLeft(task.deadline).label}
+                  </span>
+                </td>
                 <td className="px-5 py-4 text-right">
                   <span className="inline-block rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-bold text-indigo-700">
                     {task.estimatedHours}h

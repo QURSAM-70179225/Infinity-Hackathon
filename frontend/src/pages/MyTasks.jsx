@@ -1,32 +1,41 @@
-// Agent home: only the tasks assigned to the logged-in user.
+// Agent home: only the tasks assigned to the logged-in user, with their personal capacity meter.
 import { useCallback, useEffect, useState } from 'react'
 import { api } from '../services/api.js'
 import { useAuth } from '../utils/auth.jsx'
 import { plural } from '../utils/format.js'
+import { CAPACITY } from '../utils/capacity.js'
 import TaskTable from '../components/TaskTable.jsx'
+import CapacityBar from '../components/CapacityBar.jsx'
 import { EmptyState, ErrorBox, PageLoader } from '../components/States.jsx'
 
 export default function MyTasks() {
   const { user } = useAuth()
   const [tasks, setTasks] = useState(null)
+  const [capacity, setCapacity] = useState(null)
   const [error, setError] = useState('')
+
+  const isAgent = user.role === 'AGENT'
 
   const load = useCallback(async () => {
     setError('')
     try {
       const data = await api('/tasks/mine')
       setTasks(data.tasks)
+      if (isAgent) {
+        // For an agent the backend returns only their own workload entry.
+        const workload = await api('/workload')
+        setCapacity(workload.workload[0] || null)
+      }
     } catch (err) {
       setError(err.message)
     }
-  }, [])
+  }, [isAgent])
 
   useEffect(() => {
     load()
   }, [load])
 
   const projectCount = tasks ? new Set(tasks.map((task) => task.projectId)).size : 0
-  const isAgent = user.role === 'AGENT'
 
   return (
     <div className="space-y-6">
@@ -41,6 +50,20 @@ export default function MyTasks() {
               : 'Tasks in the projects you can see.'}
         </p>
       </header>
+
+      {isAgent && capacity && (
+        <section className="rise rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-400">My capacity</h2>
+          <CapacityBar
+            hours={capacity.hours}
+            note={
+              capacity.status === 'over'
+                ? `You are ${capacity.hours - CAPACITY}h above the ${CAPACITY} hour capacity. Ask your project manager to reassign a task.`
+                : `You have ${CAPACITY - capacity.hours}h of free capacity.`
+            }
+          />
+        </section>
+      )}
 
       {error && <ErrorBox message={error} onRetry={load} />}
       {!tasks && !error && <PageLoader label="Loading tasks" />}
