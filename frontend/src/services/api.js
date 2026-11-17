@@ -1,9 +1,11 @@
 // One place for every call to the backend. Adds the login token automatically.
-// The backend address, cleaned so a trailing slash or a trailing /api cannot break the URLs.
-const BASE = (import.meta.env.VITE_API_URL || 'http://localhost:5000')
-  .trim()
-  .replace(/\/+$/, '')
-  .replace(/\/api$/, '')
+// Where the backend is.
+// Deployed: the same site. Vercel forwards every /api request to the Render backend
+// (see frontend/vercel.json), so the browser never calls another domain and CORS cannot block it.
+// Local development: VITE_API_URL if set, otherwise the local backend on port 5000.
+const BASE = import.meta.env.PROD
+  ? ''
+  : (import.meta.env.VITE_API_URL || 'http://localhost:5000').trim().replace(/\/+$/, '').replace(/\/api$/, '')
 const TOKEN_KEY = 'novaworks_token'
 
 export function getToken() {

@@ -219,7 +219,7 @@ One manager has many projects, one project has many tasks, and one agent has man
 | `CORS_ORIGIN` | Frontend URL allowed to call the API when deployed | backend |
 | `DB_MODE` | `supabase` (default) or `local` for a file database | backend |
 | `PORT` | API port, default 5000 | backend |
-| `VITE_API_URL` | Backend endpoint, default `http://localhost:5000` | frontend |
+| `VITE_API_URL` | Local development only: backend address, default `http://localhost:5000`. The deployed site uses the forwarding in `frontend/vercel.json` | frontend |
 | `VITE_DEMO_DATE` | Optional date that deadline reminders are measured from | frontend |
 
 `.env.example` files with placeholders are in `backend/` and `frontend/`. Real keys are never committed. No AI or database secret is exposed to the browser.
@@ -291,19 +291,19 @@ npm test
 ## Deployment Details
 - Deployment status: Live
 - Frontend host: Vercel, https://infinity-hack-plum.vercel.app
-- Backend host: Render, [Render URL]
+- Backend host: Render, https://infinity-hackathon-9mbr.onrender.com
 - Database: Supabase hosted PostgreSQL
 - Deployed branch/commit: `main`, [commit SHA]
 
 Full step-by-step instructions are in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ### How We Deployed
-1. Frontend on Vercel: root directory `frontend`, build command `npm run build`, output directory `dist`. `frontend/vercel.json` sends all routes to `index.html`.
+1. Frontend on Vercel: root directory `frontend`, build command `npm run build`, output directory `dist`. `frontend/vercel.json` forwards every `/api` request to the Render backend and sends all other routes to `index.html`, so the browser only ever talks to the Vercel domain.
 2. Backend on Render (Web Service): root directory `backend`, build command `npm install`, start command `npm start`.
 3. Database: the same Supabase project, reached over HTTPS. No extra SSL setup is needed.
-4. Environment variables on Render: `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `GROQ_API_KEY`, `OPENROUTER_API_KEY`, `SESSION_SECRET`, `DB_MODE`, `CORS_ORIGIN`. On Vercel: `VITE_API_URL`, `VITE_DEMO_DATE`.
+4. Environment variables on Render: `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `GROQ_API_KEY`, `OPENROUTER_API_KEY`, `SESSION_SECRET`, `DB_MODE`, `CORS_ORIGIN`. On Vercel: `VITE_DEMO_DATE`.
 5. Schema and seed: `backend/sql/schema.sql` was run in the Supabase SQL Editor, then `npm run seed` was run locally against the same database.
-6. `VITE_API_URL` is the Render URL, and `CORS_ORIGIN` on Render is the Vercel URL.
+6. The Render URL is set once in `frontend/vercel.json`. `VITE_API_URL` is only used in local development.
 7. Judges open the live link, log in with any demo account above, and use Create from Transcript as admin.
 
 ## Known Limitations

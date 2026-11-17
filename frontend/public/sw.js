@@ -2,7 +2,7 @@
 // It keeps a copy of the app shell (the page, scripts and styles) so the app opens
 // quickly and shows itself even with a weak connection.
 // API requests are never cached: project and task data always comes fresh from the backend.
-const CACHE = "novaworks-shell-v1";
+const CACHE = "novaworks-shell-v2";
 
 self.addEventListener("install", () => self.skipWaiting());
 
@@ -18,6 +18,9 @@ self.addEventListener("fetch", (event) => {
 
   // Only handle this site's own GET requests. Everything else (the API) goes straight to the network.
   if (request.method !== "GET" || url.origin !== self.location.origin) return;
+  // The API is now on the same site (Vercel forwards /api to Render). Never cache it:
+  // data must always be fresh and must never be shown to a different user.
+  if (url.pathname.startsWith("/api/")) return;
 
   // Network first, so a new deployment is picked up at once. The cache is only the fallback.
   event.respondWith(

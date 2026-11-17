@@ -49,13 +49,11 @@ Open the repository on GitHub and check that `backend/.env` and `frontend/.env` 
 3. Environment variables:
    | Name | Value |
    |---|---|
-   | `VITE_API_URL` | `https://<your-service>.onrender.com` (no slash at the end) |
    | `VITE_DEMO_DATE` | `2026-10-07` |
 4. Click Deploy and copy the Vercel URL.
 
 ## 4. Connect the two
-1. In Render > Environment, add `CORS_ORIGIN` = your Vercel URL (no slash at the end).
-2. Save. Render restarts the backend.
+`frontend/vercel.json` forwards `/api` to the Render backend. If the Render URL changes, change it there and push. No CORS setting is needed for the deployed site.
 
 ## 5. Test the live link
 1. Open the Vercel URL and log in as Admin.
